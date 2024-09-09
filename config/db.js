@@ -1,5 +1,6 @@
 // config/db.js
 const mysql = require('mysql2');
+const colors = require('colors');
 
 // Create a connection pool
 const pool = mysql.createPool({
