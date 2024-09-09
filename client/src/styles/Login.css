@@ -1,0 +1,46 @@
+/* Container holding the form */
+.form-container1 {
+    max-width: 400px; /* Width of the form */
+    margin: 100px auto; /* Center it horizontally with auto margin */
+    padding: 20px; /* Padding inside the form */
+    border: 2px solid #ccc; /* Border around the form */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for 3D effect */
+    background-color: #fff; /* White background for the form box */
+    height:45vh;
+  }
+  
+  /* Form heading */
+  h1.text-center {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Input fields */
+  .ant-form-item {
+    margin-bottom: 16px; /* Spacing between fields */
+  }
+  
+  /* Link styling */
+  .ms-2.text {
+    display: block;
+    text-align: right;
+    color: #1890ff; /* Blue color for the link */
+    margin-top: 10px;
+  }
+  
+  /* Submit button styling */
+  .login-btn {
+    width: 100%; /* Full-width button */
+    background-color: #1890ff; /* Primary button color */
+    border-color: #1890ff;
+    color: #fff; /* White text on the button */
+  }
+  
+  .login-btn:hover {
+    background-color: #40a9ff; /* Lighter blue on hover */
+    border-color: #40a9ff;
+  }
+  
