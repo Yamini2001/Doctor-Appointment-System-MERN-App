@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './index.css'; // Your custom CSS
+import 'antd/dist/reset.css'; // Import Ant Design styles
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
