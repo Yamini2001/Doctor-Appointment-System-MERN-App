@@ -36,7 +36,8 @@ app.get('/users', async (req, res) => {
 // Port configuration
 const port = process.env.PORT || 8080;
 
-// Start the server
 app.listen(port, () => {
-    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`.bgCyan.white);
+    const environment = process.env.NODE_ENV || 'development'; // Default to 'development' if NODE_ENV is undefined
+    console.log(`Server running in ${environment} mode on port ${port}`.bgCyan.white);
 });
+
