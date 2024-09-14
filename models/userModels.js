@@ -6,11 +6,11 @@ const UserModel = {
   
   // Create a new user
   createUser: async (userData) => {
-    const { name, email, password, role } = userData;
+    const { name, email, password } = userData;
     try {
       const result = await db.query(
-        'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)', 
-        [name, email, password, role]
+        'INSERT INTO users (name, email, password) VALUES (?, ?, ?, ?)', 
+        [name, email, password]
       );
       return result[0]; // Returns the newly created user ID or result
     } catch (error) {
@@ -40,11 +40,11 @@ const UserModel = {
 
   // Update a user
   updateUser: async (id, userData) => {
-    const { name, email, password, role } = userData;
+    const { name, email, password } = userData;
     try {
       const result = await db.query(
-        'UPDATE users SET name = ?, email = ?, password = ?, role = ? WHERE id = ?', 
-        [name, email, password, role, id]
+        'UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?', 
+        [name, email, password, id]
       );
       return result[0]; // Returns affected rows or the result of the update
     } catch (error) {
