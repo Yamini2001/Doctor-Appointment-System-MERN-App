@@ -15,11 +15,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
-app.get('/', (req, res) => {
-    res.status(200).send({
-        message: "Server running",
-    });
-});
+app.use('/api/v1/user',require('./routes/userRoutes'))
 
 // Example route to get users from MySQL database
 app.get('/users', async (req, res) => {
