@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
-app.use('/api/v1/user',require('./routes/userRoutes'))
+app.use('/api/v1/users',require('./routes/userRoutes'))
 
 // Example route to get users from MySQL database
 app.get('/users', async (req, res) => {
