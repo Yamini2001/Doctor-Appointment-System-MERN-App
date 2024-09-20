@@ -15,13 +15,13 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
-app.use('/api/v1/users',require('./routes/userRoutes'))
+app.use('/api/v1/user',require('./routes/userRoutes'))
 
 // Example route to get users from MySQL database
-app.get('/users', async (req, res) => {
+app.get('/user', async (req, res) => {
     try {
         // Perform a query
-        const [rows] = await db.query('SELECT * FROM users');
+        const [rows] = await db.query('SELECT * FROM user');
         res.status(200).json(rows);
     } catch (err) {
         console.error(err);
