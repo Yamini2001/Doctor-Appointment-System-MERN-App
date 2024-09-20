@@ -1,22 +1,20 @@
-const { default: Password } = require('antd/es/input/Password');
-const mysql2 = require('mysql2');
+// userModel.js
+const pool = require('../config/db');
 
-const userSchema = new mysql2.Schema({
-    name:{
-        type: String,
-        required: [true,'name is require']
-    },
-    email:{
-        type:String,
-        required: [true,'email is require']
-    },
-    Password:{
-        type:String,
-        required: [true,'password is require']
-    },
+// Get user by email
+async function getUserByEmail(email) {
+    const query = 'SELECT * FROM users WHERE email = ?';
+    const [rows] = await pool.execute(query, [email]);
+    return rows;
+}
 
-})
+// Create a new user
+async function createUser(name, email, password) {
+    const query = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
+    await pool.execute(query, [name, email, password]);
+}
 
-const userModel = mysql2.model('users',userSchema)
-
-module.exports = userModel;
+module.exports = {
+    getUserByEmail,
+    createUser
+};
