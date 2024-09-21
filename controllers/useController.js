@@ -1,4 +1,4 @@
-const userModel = require('../models/userModels'); // Import your user model for MySQL queries
+const userModel = require('../models/userModels'); // Import user model for MySQL queries
 const bcrypt = require('bcryptjs'); // For password hashing
 
 // Register Controller
@@ -9,22 +9,15 @@ const registerController = async (req, res) => {
         // Check if user already exists in the database
         const existingUser = await userModel.getUserByEmail(email);
         if (existingUser.length > 0) {
-            return res.status(200).send({ message: 'User Already Exists', success: false });
+            return res.status(409).send({ message: 'User Already Exists', success: false }); // Use 409 Conflict for existing user
         }
 
         // Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create a new user object
-        const newUser = {
-            name: name,
-            email: email,
-            password: hashedPassword
-        };
-
         // Save the new user to the database
-        await userModel.createUser(newUser.name, newUser.email, newUser.password);
+        await userModel.createUser(name, email, hashedPassword);
         res.status(201).send({ message: 'Registered Successfully', success: true });
 
     } catch (error) {

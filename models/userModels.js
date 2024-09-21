@@ -1,18 +1,16 @@
-// userModel.js
-const pool = require('../config/db');
+const promisePool = require('../config/db'); // MySQL connection
 
-// Get user by email
-async function getUserByEmail(email) {
-    const query = 'SELECT * FROM user WHERE email = ?';
-    const [rows] = await pool.execute(query, [email]);
+// Function to get a user by email
+const getUserByEmail = async (email) => {
+    const [rows] = await promisePool.query('SELECT * FROM user WHERE email = ?', [email]);
     return rows;
-}
+};
 
-// Create a new user
-async function createUser(name, email, password) {
-    const query = 'INSERT INTO user (name, email, password) VALUES (?, ?, ?)';
-    await pool.execute(query, [name, email, password]);
-}
+// Function to create a new user
+const createUser = async (name, email, password) => {
+    const [result] = await promisePool.query('INSERT INTO user (name, email, password) VALUES (?, ?, ?)', [name, email, password]);
+    return result;
+};
 
 module.exports = {
     getUserByEmail,
