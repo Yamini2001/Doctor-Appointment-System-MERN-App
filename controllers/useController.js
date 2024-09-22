@@ -10,7 +10,7 @@ const registerController = async (req, res) => {
         // Check if user already exists in the database
         const existingUser = await userModel.getUserByEmail(email);
         if (existingUser.length > 0) {
-            return res.status(409).send({ message: 'User Already Exists', success: false }); // Use 409 Conflict for existing user
+            return res.status(409).send({ message: 'User Already Exists', success: false });
         }
 
         // Hash the password
@@ -20,7 +20,6 @@ const registerController = async (req, res) => {
         // Save the new user to the database
         await userModel.createUser(name, email, hashedPassword);
         res.status(201).send({ message: 'Registered Successfully', success: true });
-
     } catch (error) {
         console.log('Error:', error);
         res.status(500).send({ success: false, message: `Register Controller Error: ${error.message}` });
@@ -43,42 +42,41 @@ const loginController = async (req, res) => {
         if (!isMatch) {
             return res.status(400).send({ message: 'Invalid credentials', success: false });
         }
-        const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn: '1d'})
-        // If login successful, return success response (JWT can be added here)
-        res.status(200).send({ message: 'Login successful', success: true,token});
+
+        const token = jwt.sign({ id: user[0].id }, process.env.JWT_SECRET, { expiresIn: '1d' }); // Adjust this as necessary
+        res.status(200).send({ message: 'Login successful', success: true, token });
     } catch (error) {
         console.log('Error:', error);
         res.status(500).send({ success: false, message: `Login Controller Error: ${error.message}` });
     }
 };
-const authController = async(req,res) =>{
-    try{
-        const user = await userModel.findOne({_id:req.body.userid});
-        if(!user){
-            return res.status(200).send({
-                message:'user not found',
+
+// Auth Controller
+const authController = async (req, res) => {
+    try {
+        const user = await userModel.findOne({ id: req.body.userId }); // Adjust this as necessary
+        if (!user) {
+            return res.status(404).send({
+                message: 'User not found',
                 success: false
-            })
-        }else{
+            });
+        } else {
             res.status(200).send({
-                success:true,
-                data:{
-                   name:user.name,
-                   email:user.email,
+                success: true,
+                data: {
+                    name: user.name,
+                    email: user.email,
                 },
-            })
+            });
         }
-
-    }
-    catch{
-        console.log(error)
+    } catch (error) {
+        console.log(error);
         res.status(500).send({
-            message: ' auth error',
+            message: 'Auth error',
             success: false,
-            error
-        })
+            error: error.message // Send error message
+        });
     }
-
 };
 
-module.exports = { registerController, loginController,authController };
+module.exports = { registerController, loginController, authController };
