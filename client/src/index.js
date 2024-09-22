@@ -4,6 +4,8 @@ import './index.css'; // Your custom CSS
 import 'antd/dist/reset.css'; // Import Ant Design styles
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {Provider} from "react-redux";
+import store from './redux/store';
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
@@ -11,9 +13,12 @@ if (!rootElement) {
 } else {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <React.StrictMode>
+    <Provider store = {store}>
+       <React.StrictMode>
         <App />
     </React.StrictMode>
+    </Provider>
+   
   );
 }
 
