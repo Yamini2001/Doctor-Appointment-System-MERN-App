@@ -1,42 +1,20 @@
-const express = require('express');
-const colors = require('colors');
-const morgan = require('morgan');
-const dotenv = require('dotenv');
-const db = require('./config/db'); // Path to your db.js file
+// server.js
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const userRoutes = require("./routes/userRoutes");
 
-// Load environment variables
-dotenv.config();
-
-// Create an Express application
 const app = express();
-const cors = require('cors');
-app.use(cors());
-
 
 // Middleware
-app.use(express.json());
-app.use(morgan('dev'));
+app.use(cors());
+app.use(bodyParser.json());
 
 // Routes
-app.use('/api/v1/user',require('./routes/userRoutes'))
+app.use("/api/users", userRoutes);
 
-// Example route to get users from MySQL database
-app.get('/user', async (req, res) => {
-    try {
-        // Perform a query
-        const [rows] = await db.query('SELECT * FROM user');
-        res.status(200).json(rows);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
-    }
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
-
-// Port configuration
-const port = process.env.PORT || 8080;
-
-app.listen(port, () => {
-    const environment = process.env.NODE_ENV || 'development'; // Default to 'development' if NODE_ENV is undefined
-    console.log(`Server running in ${environment} mode on port ${port}`.bgCyan.white);
-});
-
