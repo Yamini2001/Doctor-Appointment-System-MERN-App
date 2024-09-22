@@ -1,5 +1,6 @@
 const userModel = require('../models/userModels'); // Import user model for MySQL queries
 const bcrypt = require('bcryptjs'); // For password hashing
+const jwt = require('jsonwebtoken');
 
 // Register Controller
 const registerController = async (req, res) => {
@@ -45,7 +46,7 @@ const loginController = async (req, res) => {
 
         // If login successful, return success response (JWT can be added here)
         res.status(200).send({ message: 'Login successful', success: true });
-        
+        const token = jwt.sign({id:user.id},)
     } catch (error) {
         console.log('Error:', error);
         res.status(500).send({ success: false, message: `Login Controller Error: ${error.message}` });
