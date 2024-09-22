@@ -1,89 +1,54 @@
-import React from 'react';
-import { Link,useNavigate } from 'react-router-dom';
-import { Form, Input, Button,message } from 'antd'; // Import Button from Ant Design
-import '../styles/Login.css'; // Ensure you have styles defined
-import {useDispatch} from "react-redux";
-import { showLoading,hideLoading } from '../redux/features/alertSlice';
-import axios from 'axios';
+import React from "react";
+import "../styles/Login.css";
+import { Form, Input, message } from "antd";
+import { useDispatch } from "react-redux";
+import { showLoading, hideLoading } from "../redux/features/alertSlice";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // Form handler
-  const onFinishHandler = async(values) => {
-    try{
-      dispatch(showLoading())
-      const res = await axios.post('/api/v1/user/login',values)
+  //form handler
+  const onfinishHandler = async (values) => {
+    try {
+      dispatch(showLoading());
+      const res = await axios.post("/api/v1/user/login", values);
       dispatch(hideLoading());
-      if(res.data.success){
-        localStorage.setItem("token",res.data.token);
-        message.success('Login Successfully');
-        navigate('/')
-
-      }else{
-        message.error(res.data.message)
-
+      if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
+        message.success("Login Successfully");
+        navigate("/");
+      } else {
+        message.error(res.data.message);
       }
-    }
-    catch(error){
-      dispatch(hideLoading())
-      console.log(error)
-      message.error('Invalid email or Password')
+    } catch (error) {
+      dispatch(hideLoading());
+      console.log(error);
+      message.error("something went wrong");
     }
   };
-
   return (
-    <div className="form-container1">
+    <div className="form-container ">
       <Form
         layout="vertical"
-        onFinish={onFinishHandler}
-        className="login-form" // Consider using a more appropriate class like 'login-form'
-        initialValues={{
-          email: '',
-          password: '',
-        }}
+        onFinish={onfinishHandler}
+        className="register-form"
       >
-        <h1 className="text-center">Login Form</h1>
-        {/* Email Field */}
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your email!',
-              type: 'email', // Ensures that the input is validated as an email
-            },
-          ]}
-        >
-          <Input type="email" placeholder="Enter your email" />
-        </Form.Item>
+        <h3 className="text-center">Login From</h3>
 
-        {/* Password Field */}
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
-            },
-          ]}
-        >
-          <Input.Password placeholder="Enter your password" />
+        <Form.Item label="Email" name="email">
+          <Input type="email" required />
         </Form.Item>
-
-        {/* Register Link */}
-        <Link to="/register" className="ms-2 text">
-          Not a user? Register here
+        <Form.Item label="Password" name="password">
+          <Input type="password" required />
+        </Form.Item>
+        <Link to="/register" className="m-2">
+          Not a user Register here
         </Link>
-
-        {/* Submit Button */}
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-btn">
-            Login
-          </Button>
-        </Form.Item>
+        <button className="btn btn-primary" type="submit">
+          Login
+        </button>
       </Form>
     </div>
   );
