@@ -1,12 +1,29 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Form, Input, Button } from 'antd'; // Import Button from Ant Design
+import { Link,useNavigate } from 'react-router-dom';
+import { Form, Input, Button,message } from 'antd'; // Import Button from Ant Design
 import '../styles/Login.css'; // Ensure you have styles defined
+import axios from 'axios';
 
 const Login = () => {
+  const navigate = useNavigate();
   // Form handler
-  const onFinishHandler = (values) => {
-    console.log('Login Values: ', values);
+  const onFinishHandler = async(values) => {
+    try{
+      const res = await axios.post('/api/v1/user/login',values)
+      if(res.data.success){
+        localStorage.setItem("token",res.data.token);
+        message.success('Login Successfully');
+        navigate('/')
+
+      }else{
+        message.error(res.data.message)
+
+      }
+    }
+    catch(error){
+      console.log(error)
+      message.error('Invalid email or Password')
+    }
   };
 
   return (

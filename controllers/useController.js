@@ -43,10 +43,9 @@ const loginController = async (req, res) => {
         if (!isMatch) {
             return res.status(400).send({ message: 'Invalid credentials', success: false });
         }
-
+        const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn: '1d'})
         // If login successful, return success response (JWT can be added here)
-        res.status(200).send({ message: 'Login successful', success: true });
-        const token = jwt.sign({id:user.id},)
+        res.status(200).send({ message: 'Login successful', success: true,token});
     } catch (error) {
         console.log('Error:', error);
         res.status(500).send({ success: false, message: `Login Controller Error: ${error.message}` });
