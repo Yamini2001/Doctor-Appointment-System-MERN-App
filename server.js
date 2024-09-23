@@ -1,34 +1,27 @@
-// server.js
-const express = require("express");
-const http = require("http");
-const WebSocket = require("ws");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const userRoutes = require("./routes/userRoutes");
+const express = require('express');
+const cors = require('cors');
+// const cookieParser = require('cookie-parser');
+const userRoutes = require('./routes/userRoutes'); // Adjust the path if necessary
+const dotenv = require('dotenv');
+
+// Load environment variables from .env file
+dotenv.config();
 
 const app = express();
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
+app.use(cors({
+    origin: 'http://localhost:5173', // Adjust according to your client URL
+    credentials: true
+}));
+
+app.use(express.json());
+// app.use(cookieParser());
 
 // Routes
-app.use("/api/v1/user", userRoutes);
+app.use('/api/users', userRoutes);
 
-// WebSocket connection
-wss.on("connection", (ws) => {
-    console.log("New client connected");
-    ws.on("message", (message) => {
-        console.log(`Received: ${message}`);
-    });
-
-    ws.send("Welcome to the WebSocket server!");
-});
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
+const PORT = process.env.PORT || 8800; // Adjust port if needed
+app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

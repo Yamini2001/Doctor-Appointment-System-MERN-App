@@ -2,46 +2,32 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const HomePage = () => {
-  // State to store user data
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true); // State to manage loading
-  const [error, setError] = useState(null);     // State to manage error
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Fetch user data from the API
   const getUserData = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/v1/user/getUserData",
-        {},
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      );
-      setUserData(res.data); // Set user data to the state
-      setLoading(false);     // Turn off loading
+      const res = await axios.get("http://localhost:8800/api/auth/getUserData", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      setUserData(res.data);
+      setLoading(false);
     } catch (err) {
-      setError("Error fetching user data"); // Handle error message
-      console.log(err);
+      setError("Error fetching user data");
+      console.error(err);
       setLoading(false);
     }
   };
 
-  // Trigger user data fetch when component mounts
   useEffect(() => {
     getUserData();
   }, []);
 
-  // If loading, show a loading indicator
-  if (loading) {
-    return <h2>Loading...</h2>;
-  }
-
-  // If error, show an error message
-  if (error) {
-    return <h2>{error}</h2>;
-  }
+  if (loading) return <h2>Loading...</h2>;
+  if (error) return <h2>{error}</h2>;
 
   return (
     <div>
