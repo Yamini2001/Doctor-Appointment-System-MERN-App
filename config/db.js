@@ -1,16 +1,6 @@
 // config/db.js
-const mysql = require('mysql2');
-const colors = require('colors');
+const { PrismaClient } = require("@prisma/client");
 
-// Create a connection pool
-const pool = mysql.createPool({
-  host: 'localhost',      // Your database host (default is localhost)
-  user: 'root',           // Your MySQL username (default is root)
-  password: '',           // Your MySQL password (default is empty for XAMPP)
-  database: 'doctorapp' // The name of your MySQL database
-});
+const prisma = new PrismaClient();
 
-// Promisify for Node.js async/await.
-const promisePool = pool.promise();
-
-module.exports = promisePool;
+module.exports = prisma;

@@ -1,18 +1,56 @@
-const promisePool = require('../config/db'); // MySQL connection
+// models/usermodel.js
+const prisma = require("../config/db");
+const bcrypt = require("bcryptjs");
 
-// Function to get a user by email
-const getUserByEmail = async (email) => {
-    const [rows] = await promisePool.query('SELECT * FROM user WHERE email = ?', [email]);
-    return rows;
+// Create a new user (register)
+const createUser = async (name, email, password) => {
+  // Hash the password
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  try {
+    // Create the user in the database
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword, // Save hashed password
+      },
+    });
+    return user;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw new Error("Unable to create user. Email may already exist.");
+  }
 };
 
-// Function to create a new user
-const createUser = async (name, email, password) => {
-    const [result] = await promisePool.query('INSERT INTO user (name, email, password) VALUES (?, ?, ?)', [name, email, password]);
-    return result;
+// Find a user by email (for login)
+const findUserByEmail = async (email) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.error("Error finding user by email:", error);
+    throw new Error("Unable to find user by email.");
+  }
+};
+
+// Validate password
+const validatePassword = async (enteredPassword, storedPassword) => {
+  try {
+    const isPasswordValid = await bcrypt.compare(enteredPassword, storedPassword);
+    return isPasswordValid;
+  } catch (error) {
+    console.error("Error validating password:", error);
+    throw new Error("Password validation failed.");
+  }
 };
 
 module.exports = {
-    getUserByEmail,
-    createUser
+  createUser,
+  findUserByEmail,
+  validatePassword,
 };
