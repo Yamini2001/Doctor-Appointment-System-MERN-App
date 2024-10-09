@@ -1,27 +1,31 @@
-const express = require('express');
-const cors = require('cors');
-// const cookieParser = require('cookie-parser');
-const userRoutes = require('./routes/userRoutes'); // Adjust the path if necessary
-const dotenv = require('dotenv');
+const express = require("express");
+const colors = require("colors");
+const moragan = require("morgan");
+const dotenv = require("dotenv");
+const connectDB = require("./config/db");
 
-// Load environment variables from .env file
+//dotenv conig
 dotenv.config();
 
+//mongodb connection
+connectDB();
+
+//rest obejct
 const app = express();
 
-// Middleware
-app.use(cors({
-    origin: 'http://localhost:5173', // Adjust according to your client URL
-    credentials: true
-}));
-
+//middlewares
 app.use(express.json());
-// app.use(cookieParser());
+app.use(moragan("dev"));
 
-// Routes
-app.use('/api/users', userRoutes);
+//routes
+app.use("/api/v1/user", require("./routes/userRoutes"));
 
-const PORT = process.env.PORT || 8800; // Adjust port if needed
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+//port
+const port = process.env.PORT || 8080;
+//listen port
+app.listen(port, () => {
+  console.log(
+    `Server Running in ${process.env.NODE_MODE} Mode on port ${process.env.PORT}`
+      .bgCyan.white
+  );
 });
