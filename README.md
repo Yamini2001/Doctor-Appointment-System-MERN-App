@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Doctor Appointment System is a MERN Stack application designed to manage doctor appointments. It includes features for user authentication, appointment scheduling, and management of appointments. This project utilizes MongoDB, Express.js, React.js, and Node.js, along with Redux for state management.
+The Doctor Appointment System is a MERN Stack application designed to manage doctor appointments. It includes features for user authentication, appointment scheduling, and appointment management. This project utilizes MongoDB, Express.js, React.js, and Node.js, along with Redux for state management.
 
 ## Features
 
@@ -36,7 +36,7 @@ The Doctor Appointment System is a MERN Stack application designed to manage doc
 - **Backend:**
   - Node.js
   - Express.js
-  - Prisma
+  - Mongodb
 
 - **Tools:**
   - Postman (for API testing)
