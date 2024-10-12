@@ -8,4 +8,7 @@
   .register-form {
     border: 1px solid gray;
     padding: 30px;
+    border-radius: 5%;
+    width:25%;
+    /* height:55vh; */
   }
