@@ -23,7 +23,7 @@ const HomePage = () => {
   }, []);
   return (
     <div>
-      <h1>Welcome Home Page</h1>
+      <h1>Welcome HomePage</h1>
     </div>
   );
 };
