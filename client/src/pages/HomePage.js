@@ -19,6 +19,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    //it the data from the user
     getUserData();
   }, []);
   return (
