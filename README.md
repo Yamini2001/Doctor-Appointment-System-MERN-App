@@ -36,7 +36,7 @@ The Doctor Appointment System is a MERN Stack application designed to manage doc
 - **Backend:**
   - Node.js
   - Express.js
-  - Mongodb
+  - MongoDB
 
 - **Tools:**
   - Postman (for API testing)
